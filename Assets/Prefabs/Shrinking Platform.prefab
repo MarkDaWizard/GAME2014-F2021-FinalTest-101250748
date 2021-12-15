@@ -385,9 +385,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 0
-  rate: 0.002
+  rate: 0.004
   currentSize: 0
   originalSize: 0
+  expandSound: {fileID: 5258449827697927543}
+  shrinkSound: {fileID: 7388979775514808380}
 --- !u!61 &7243116281038065869
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -426,7 +428,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0da9eefda4eff3e449484627ebaa10e2, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.75
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -522,7 +524,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9cf6ce0631edb294781c0cee7ab51e20, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.75
   m_Pitch: 1
   Loop: 0
   Mute: 0

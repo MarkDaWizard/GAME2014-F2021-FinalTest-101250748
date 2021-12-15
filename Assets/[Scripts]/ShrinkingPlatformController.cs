@@ -24,13 +24,13 @@ public class ShrinkingPlatformController : MonoBehaviour
         if(isActive)
         {
             Shrink();
+            
         }
         else if(!isActive)
         {
             Expand();
+            
         }
-
-        Debug.Log(transform.localScale.x);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -48,8 +48,16 @@ public class ShrinkingPlatformController : MonoBehaviour
         if (currentSize >= 0)
         {
             transform.localScale -= transform.localScale * rate;
-            expandSound.Play();
+            if (!expandSound.isPlaying && !shrinkSound.isPlaying)
+                shrinkSound.Play();
+            else if (expandSound.isPlaying)
+            {
+                expandSound.Stop();
+                shrinkSound.Play();
+            }
         }
+        else
+            shrinkSound.Stop();
     }
 
     private void Expand()
@@ -57,8 +65,17 @@ public class ShrinkingPlatformController : MonoBehaviour
         if (currentSize < originalSize)
         { 
             transform.localScale += transform.localScale * rate;
-            shrinkSound.Play();
+            if (!expandSound.isPlaying && !shrinkSound.isPlaying)
+                expandSound.Play();
+            else if(shrinkSound.isPlaying)
+            {
+                shrinkSound.Stop();
+                expandSound.Play();
+            }
+            
         }
+        else
+            expandSound.Stop();
     }
 
     private void Float()
