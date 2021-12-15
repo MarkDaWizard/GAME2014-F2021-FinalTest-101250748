@@ -282,6 +282,11 @@ public class PlayerBehaviour : MonoBehaviour
             other.gameObject.GetComponent<MovingPlatformController>().isActive = true;
             transform.SetParent(other.gameObject.transform);
         }
+
+        if(other.gameObject.CompareTag("Shrinking Platform"))
+        {
+            Debug.Log("player touch shrink");
+        }
     }
 
     private void OnCollisionExit2D(Collision2D other)

@@ -69,4 +69,8 @@ public class MovingPlatformController : MonoBehaviour
         transform.position = start.position;
         platformTimer = 0;
     }
+
+
+
+
 }
