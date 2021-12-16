@@ -1,3 +1,11 @@
+// Name: Phu Pham
+// ID: 101250748
+// File name: ShrinkingPlatformController.cs
+// Date last modified: 15-Dec-2021
+// Program description: Handle the behaviour of the shrinking platform
+// Revision History: 
+//  15-Dec-2021: Added functionality to shrinking platform
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,18 +17,23 @@ public class ShrinkingPlatformController : MonoBehaviour
     public float currentSize, originalSize;
 
     public AudioSource expandSound, shrinkSound;
+    public float platformTimer;
+    public float currentY = 0, originalY;
 
     // Start is called before the first frame update
     void Start()
     {
         originalSize = transform.localScale.x;
-
+        platformTimer = 0.1f;
+        originalY = transform.parent.position.y;
     }
 
     // Update is called once per frame
     void Update()
     {
         currentSize = transform.localScale.x;
+        platformTimer += Time.deltaTime;
+        Float();
         if(isActive)
         {
             Shrink();
@@ -33,15 +46,7 @@ public class ShrinkingPlatformController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-
-    }
+    
 
     private void Shrink()
     {
@@ -80,7 +85,8 @@ public class ShrinkingPlatformController : MonoBehaviour
 
     private void Float()
     {
-
+        currentY = Mathf.PingPong(platformTimer, 1f);
+        transform.parent.position = new Vector3(transform.position.x, currentY + originalY, 0.0f);
     }
         
 }

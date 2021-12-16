@@ -1,4 +1,17 @@
-﻿using System.Collections;
+﻿// Name: Phu Pham
+// ID: 101250748
+// File name: PlayerBehaviour.cs
+// Date last modified: 15-Dec-2021
+// Program description: Handle the behaviour of the player
+// Revision History: 
+//  15-Dec-2021: Added support for shrinking platform
+
+
+
+
+
+
+using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using Unity.Mathematics;
@@ -172,38 +185,20 @@ public class PlayerBehaviour : MonoBehaviour
                 if (joystick.Horizontal > joystickHorizontalSensitivity)
                 {
                     // move right
-                    m_rigidBody2D.AddForce(Vector2.right * horizontalForce * Time.deltaTime);
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                    if (onRamp && rampDirection == RampDirection.UP)
-                    {
-                        m_rigidBody2D.AddForce(Vector2.up * horizontalForce * rampForceFactor * Time.deltaTime);
-                    }
-                    else if (onRamp && rampDirection == RampDirection.DOWN)
-                    {
-                        m_rigidBody2D.AddForce(Vector2.down * horizontalForce * rampForceFactor * Time.deltaTime);
-                    }
-
-                    CreateDustTrail();
-
-                    m_animator.SetInteger("AnimState", (int)PlayerAnimationType.RUN);
+                    MoveRight();
                 }
                 else if (joystick.Horizontal < -joystickHorizontalSensitivity)
                 {
                     // move left
-                    m_rigidBody2D.AddForce(Vector2.left * horizontalForce * Time.deltaTime);
-                    transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-                    if (onRamp && rampDirection == RampDirection.UP)
-                    {
-                        m_rigidBody2D.AddForce(Vector2.up * horizontalForce * rampForceFactor * Time.deltaTime);
-                    }
-                    else if (onRamp && rampDirection == RampDirection.DOWN)
-                    {
-                        m_rigidBody2D.AddForce(Vector2.down * horizontalForce * rampForceFactor * Time.deltaTime);
-                    }
-
-                    CreateDustTrail();
-
-                    m_animator.SetInteger("AnimState", (int)PlayerAnimationType.RUN);
+                    MoveLeft();
+                }
+                else if (Input.GetKey("d"))
+                {
+                    MoveRight();
+                }
+                else if (Input.GetKey("a"))
+                {
+                    MoveLeft();
                 }
                 else
                 {
@@ -214,13 +209,11 @@ public class PlayerBehaviour : MonoBehaviour
             if ((joystick.Vertical > joystickVerticalSensitivity) && (!isJumping))
             {
                 // jump
-                m_rigidBody2D.AddForce(Vector2.up * verticalForce);
-                m_animator.SetInteger("AnimState", (int) PlayerAnimationType.JUMP);
-                isJumping = true;
-
-                sounds[(int) ImpulseSounds.JUMP].Play();
-
-                CreateDustTrail();
+                Jump();
+            }
+            else if (Input.GetKey("space"))
+            {
+                Jump();
             }
             else
             {
@@ -248,6 +241,53 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
 
+    }
+
+    private void Jump()
+    {
+        m_rigidBody2D.AddForce(Vector2.up * verticalForce);
+        m_animator.SetInteger("AnimState", (int)PlayerAnimationType.JUMP);
+        isJumping = true;
+
+        sounds[(int)ImpulseSounds.JUMP].Play();
+
+        CreateDustTrail();
+    }
+
+    private void MoveLeft()
+    {
+        m_rigidBody2D.AddForce(Vector2.left * horizontalForce * Time.deltaTime);
+        transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+        if (onRamp && rampDirection == RampDirection.UP)
+        {
+            m_rigidBody2D.AddForce(Vector2.up * horizontalForce * rampForceFactor * Time.deltaTime);
+        }
+        else if (onRamp && rampDirection == RampDirection.DOWN)
+        {
+            m_rigidBody2D.AddForce(Vector2.down * horizontalForce * rampForceFactor * Time.deltaTime);
+        }
+
+        CreateDustTrail();
+
+        m_animator.SetInteger("AnimState", (int)PlayerAnimationType.RUN);
+    }
+
+    private void MoveRight()
+    {
+        m_rigidBody2D.AddForce(Vector2.right * horizontalForce * Time.deltaTime);
+        transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        if (onRamp && rampDirection == RampDirection.UP)
+        {
+            m_rigidBody2D.AddForce(Vector2.up * horizontalForce * rampForceFactor * Time.deltaTime);
+        }
+        else if (onRamp && rampDirection == RampDirection.DOWN)
+        {
+            m_rigidBody2D.AddForce(Vector2.down * horizontalForce * rampForceFactor * Time.deltaTime);
+        }
+
+        CreateDustTrail();
+
+        m_animator.SetInteger("AnimState", (int)PlayerAnimationType.RUN);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
