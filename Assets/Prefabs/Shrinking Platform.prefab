@@ -385,11 +385,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 0
-  rate: 0.004
+  rate: 0.008
   currentSize: 0
   originalSize: 0
   expandSound: {fileID: 5258449827697927543}
   shrinkSound: {fileID: 7388979775514808380}
+  platformTimer: 0
+  currentY: 0
+  originalY: 0
 --- !u!61 &7243116281038065869
 BoxCollider2D:
   m_ObjectHideFlags: 0
